@@ -3,12 +3,8 @@ const container = document.getElementById('container');
 const searchResult = document.getElementById('search-result');
 
 
-
-// const bookUrl = `http://openlibrary.org/search.json?q=${searchText}`;
-// const coverImageUrl = `https://covers.openlibrary.org/b/id/${cover_i}-L.jpg`;
-
 searchButton.addEventListener('click', handleClick);
-document.body.addEventListener('click', (e) => {e.preventDefault()});
+document.body.addEventListener('click', (e) => { e.preventDefault() });
 
 function handleClick(e) {
     container.innerHTML = '';
@@ -27,34 +23,44 @@ function setPublisher(publisher) {
         return publisher[0];
     } else if (Array.isArray(publisher) && publisher.length > 1) {
         return publisher[0] + ' and Others';
-    } else if(publisher === undefined) {
-        return 'Unknown';
+    } else if (publisher === undefined) {
+        return 'Publisher Unknown';
     } else {
         return publisher;
     }
 }
 
 function showSearchResult(data) {
-    const searchCount = document.createElement('div');
-    searchCount.innerHTML = `<p>Total Search Results for "${data.q}": ${data.numFound}</p>`;
-    searchResult.appendChild(searchCount);
+    const p = document.createElement('p');
+    if (data.numFound === 0) {
+        p.innerText = `No results for: ${data.q}`;
+        searchResult.appendChild(p);
+    } else {
+        p.innerText = `Total Search Results for "${data.q}": ${data.numFound}`;
+        searchResult.appendChild(p);
+    }
 }
 
 function showBookIndividual(book) {
     const div = document.createElement('div');
     div.innerHTML = `
-        <h1>${book.bookName}</h1>
-        <h3>Author: ${book.author}</h3>
-        <h5>First Published on: ${book.firstPublishedDate}</h5>
-        <h6>Published by: ${book.publisher}</h6>
-        <img src=${book.coverPhotoId} />
-        <hr/>
+        <div class="book-card">
+            <div class="book-image">
+                <img src=${book.coverPhotoId} />
+            </div>
+            <div class="book-info">
+                <h1>${book.bookName}</h1>
+                <h2><i>Author:</i> ${book.author}</h2>
+                <h5><i>First Published:</i> ${book.firstPublishedDate}</h5>
+                <h5><i>Published by:</i> ${book.publisher}</h5>
+            </div>
+        </div>
     `;
     container.appendChild(div);
 }
 
 function setCoverPhotoId(id) { // if there is no image provided,
-    if(id === undefined) {    //  set a custom image
+    if (id === undefined) {    //  set a custom image
         return './../image/no-image-placeholder.png';
     } else { // else set the original image
         return `https://covers.openlibrary.org/b/id/${id}-M.jpg`;
@@ -62,7 +68,7 @@ function setCoverPhotoId(id) { // if there is no image provided,
 }
 
 function setAuthorName(authorName) {
-    if(authorName === undefined) {
+    if (authorName === undefined) {
         return 'Unknown';
     } else {
         return authorName;
@@ -94,7 +100,7 @@ function showBooks(data) {
     books.forEach(book => {
         if (book.title.includes(data.q)) { // check for printing only the books
             setBookInfo(book);            // whose name contain the 'search string'
-            console.log(book.first_publish_year);
+            console.log(book.author_name);
         }
     })
 }
