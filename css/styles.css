@@ -1,7 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    background-color: whitesmoke;
+}
+
+header {
+    width: 100%;
+    background-color: #666;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}   
+
+header h1 {
+    color: white;
+    font-size: 70px;
+}
+
+.search-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=text] {
+    border: none;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 20px;
+    width: 600px;
+    margin-bottom: 10px;
+}
+
+input[type=button] {
+    background-color: #3684e2;
+    border: none;
+    height: 60px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 25px;
+    width: 640px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.search-string {
+    background-color: #666;
+    border-radius: 50px;
+    padding: 10px 20px;
+    color: white;
+    display: inline-block;
+    text-transform: italic;
+    font-size: 18px;
 }
 
 #container {
@@ -54,4 +112,25 @@ main {
 img {
     width: 100%;
     height: 300px;
+}
+
+.loader {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.loader img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.book-card h2, .book-card h5 {
+    font-weight: 300;
+    letter-spacing: .5px;
 }
