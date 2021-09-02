@@ -8,6 +8,7 @@ const searchResult = document.getElementById('search-result');
 // const coverImageUrl = `https://covers.openlibrary.org/b/id/${cover_i}-L.jpg`;
 
 searchButton.addEventListener('click', handleClick);
+document.body.addEventListener('click', (e) => {e.preventDefault()});
 
 function handleClick(e) {
     container.innerHTML = '';
@@ -26,6 +27,8 @@ function setPublisher(publisher) {
         return publisher[0];
     } else if (Array.isArray(publisher) && publisher.length > 1) {
         return publisher[0] + ' and Others';
+    } else if(publisher === undefined) {
+        return 'Unknown';
     } else {
         return publisher;
     }
@@ -58,13 +61,28 @@ function setCoverPhotoId(id) { // if there is no image provided,
     }
 }
 
+function setAuthorName(authorName) {
+    if(authorName === undefined) {
+        return 'Unknown';
+    } else {
+        return authorName;
+    }
+}
+
+function setFirstPublishedDate(year) {
+    if (year === undefined) {
+        return 'Year Unknown';
+    } else {
+        return year;
+    }
+}
+
 function setBookInfo(book) {
     const bookInfo = {
         bookName: book.title,
-        author: book.author_name,
-        firstPublishedDate: book.first_publish_year,
-        publisher: setPublisher(book.publisher), // check if an array, 
-        coverPhotoId: book.cover_i,             // then return the first element only
+        author: setAuthorName(book.author_name),
+        firstPublishedDate: setFirstPublishedDate(book.first_publish_year),
+        publisher: setPublisher(book.publisher), // check if an array, then return only the first one 
         coverPhotoId: setCoverPhotoId(book.cover_i)
     }
     showBookIndividual(bookInfo);
@@ -76,7 +94,7 @@ function showBooks(data) {
     books.forEach(book => {
         if (book.title.includes(data.q)) { // check for printing only the books
             setBookInfo(book);            // whose name contain the 'search string'
-            console.log(book.cover_i);
+            console.log(book.first_publish_year);
         }
     })
 }
